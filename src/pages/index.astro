@@ -1,0 +1,84 @@
+---
+const projects = [
+  {
+    name: 'Ladecockpit',
+    url: 'https://github.com/uekala/ladecockpit',
+    desc: 'Real Tesla Supercharger & MultiPass invoices, charging costs and price radar — self-hosted, Home Assistant optional.',
+    tags: ['Python', 'Docker', 'Home Assistant', 'Tesla'],
+  },
+  {
+    name: 'Ladekrone',
+    url: 'https://github.com/uekala/ladekrone',
+    desc: 'Cheapest ad-hoc charging prices (AFIR / Mobilithek) in Home Assistant.',
+    tags: ['Python', 'HACS', 'Home Assistant', 'EV'],
+  },
+  {
+    name: 'Kassensturz',
+    url: 'https://github.com/uekala/kassensturz',
+    desc: 'Local household budget app for Home Assistant: Open Banking, FinTS or file import.',
+    tags: ['Python', 'Home Assistant', 'FinTS'],
+  },
+  {
+    name: 'Automationscheck',
+    url: 'https://github.com/uekala/automationscheck',
+    desc: 'Finds loops and conflicting automations in Home Assistant.',
+    tags: ['Python', 'HACS', 'Home Assistant'],
+  },
+  {
+    name: 'HA Grok Update Check',
+    url: 'https://github.com/uekala/ha-grok-update-check',
+    desc: 'Blueprint: Grok searches for problems before you install a Home Assistant update.',
+    tags: ['Blueprint', 'Home Assistant', 'Grok'],
+  },
+  {
+    name: 'Exitcheck',
+    url: 'https://github.com/uekala/exitcheck',
+    desc: 'Evaluate VMware exit (RVTools) against Proxmox VE and Hyper-V in the browser.',
+    tags: ['JavaScript', 'Browser'],
+  },
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>uekala — Portfolio</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+      h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
+      .subtitle { color: #666; margin-top: 0; }
+      .project { margin: 1.8rem 0; padding-bottom: 1.2rem; border-bottom: 1px solid #eee; }
+      .project h2 { margin: 0 0 0.3rem; font-size: 1.3rem; }
+      .project h2 a { text-decoration: none; }
+      .tags { font-size: 0.85rem; color: #555; margin-top: 0.4rem; }
+      .tags span { background: #f0f0f0; padding: 0.15rem 0.5rem; border-radius: 999px; margin-right: 0.3rem; }
+      @media (prefers-color-scheme: dark) {
+        body { background: #111; color: #eee; }
+        .subtitle, .tags { color: #aaa; }
+        .tags span { background: #222; }
+        .project { border-color: #333; }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>uekala</h1>
+    <p class="subtitle">Self-hosted tools, Home Assistant integrations & practical open-source projects</p>
+
+    <h2>Projects</h2>
+    {projects.map(p => (
+      <div class="project">
+        <h2><a href={p.url}>{p.name}</a></h2>
+        <p>{p.desc}</p>
+        <div class="tags">
+          {p.tags.map(t => <span>{t}</span>)}
+        </div>
+      </div>
+    ))}
+
+    <p style="margin-top: 2rem;">
+      <a href="https://github.com/uekala">GitHub</a>
+    </p>
+  </body>
+</html>
