@@ -2,6 +2,8 @@
 
 Personal portfolio built with [Astro](https://astro.build).
 
+<img src="docs/screenshot.png" alt="Portfolio page with the list of projects" width="640">
+
 ## Projects
 
 - [Ladecockpit](https://github.com/uekala/ladecockpit) — Tesla charging invoices & price radar
