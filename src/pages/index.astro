@@ -44,41 +44,71 @@ const projects = [
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>uekala — Portfolio</title>
+    <meta name="description" content="Self-hosted tools, Home Assistant integrations and practical open-source projects by uekala." />
+    <meta property="og:title" content="uekala — Portfolio" />
+    <meta property="og:description" content="Self-hosted tools, Home Assistant integrations and practical open-source projects." />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
     <style>
-      :root { color-scheme: light dark; }
-      body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
-      h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
-      .subtitle { color: #666; margin-top: 0; }
-      .project { margin: 1.8rem 0; padding-bottom: 1.2rem; border-bottom: 1px solid #eee; }
-      .project h2 { margin: 0 0 0.3rem; font-size: 1.3rem; }
-      .project h2 a { text-decoration: none; }
-      .tags { font-size: 0.85rem; color: #555; margin-top: 0.4rem; }
-      .tags span { background: #f0f0f0; padding: 0.15rem 0.5rem; border-radius: 999px; margin-right: 0.3rem; }
-      @media (prefers-color-scheme: dark) {
-        body { background: #111; color: #eee; }
-        .subtitle, .tags { color: #aaa; }
-        .tags span { background: #222; }
-        .project { border-color: #333; }
+      :root {
+        color-scheme: light dark;
+        --bg: #fff; --text: #1a1a1a; --muted: #5c5c5c; --rule: #e6e6e6;
+        --tag-bg: #f0f0f0; --tag-text: #444; --link: #0a58ca; --link-hover: #083f91; --card-hover: #f7f9fc;
       }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111; --text: #eee; --muted: #a8a8a8; --rule: #2e2e2e;
+          --tag-bg: #232323; --tag-text: #c8c8c8; --link: #7cb4ff; --link-hover: #a9ceff; --card-hover: #181c22;
+        }
+      }
+      body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; background: var(--bg); color: var(--text); }
+      a { color: var(--link); text-underline-offset: 0.18em; }
+      a:hover { color: var(--link-hover); }
+      a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 4px; }
+      h1 { font-size: 2.2rem; margin-bottom: 0.25rem; }
+      .subtitle { color: var(--muted); margin-top: 0; }
+      h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 2.2rem 0 0.5rem; }
+      .projects { list-style: none; padding: 0; margin: 0; }
+      .project { position: relative; padding: 1rem 1rem 1.1rem; margin: 0 -1rem; border-bottom: 1px solid var(--rule); border-radius: 10px; transition: background-color 0.15s; }
+      .project:hover { background: var(--card-hover); }
+      .project h3 { margin: 0 0 0.3rem; font-size: 1.3rem; }
+      .project h3 a { text-decoration: none; }
+      /* Ganze Karte klickbar, Link bleibt das einzige Ziel für Tastatur und Screenreader */
+      .project h3 a::after { content: ""; position: absolute; inset: 0; border-radius: 10px; }
+      .project h3 a:focus-visible { outline: none; }
+      .project:has(a:focus-visible) { outline: 2px solid var(--link); outline-offset: 2px; }
+      .project p { margin: 0; }
+      .arrow { font-size: 0.9em; opacity: 0.7; }
+      .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; list-style: none; padding: 0; margin: 0.6rem 0 0; font-size: 0.85rem; }
+      .tags li { background: var(--tag-bg); color: var(--tag-text); padding: 0.1rem 0.55rem; border-radius: 999px; }
+      footer { margin-top: 2.5rem; color: var(--muted); }
+      @media (prefers-reduced-motion: reduce) { .project { transition: none; } }
     </style>
   </head>
   <body>
-    <h1>uekala</h1>
-    <p class="subtitle">Self-hosted tools, Home Assistant integrations & practical open-source projects</p>
+    <header>
+      <h1>uekala</h1>
+      <p class="subtitle">Self-hosted tools, Home Assistant integrations &amp; practical open-source projects</p>
+    </header>
 
-    <h2>Projects</h2>
-    {projects.map(p => (
-      <div class="project">
-        <h2><a href={p.url}>{p.name}</a></h2>
-        <p>{p.desc}</p>
-        <div class="tags">
-          {p.tags.map(t => <span>{t}</span>)}
-        </div>
-      </div>
-    ))}
+    <main>
+      <h2 id="projects">Projects</h2>
+      <ul class="projects" aria-labelledby="projects">
+        {projects.map(p => (
+          <li class="project">
+            <h3><a href={p.url}>{p.name} <span class="arrow" aria-hidden="true">↗</span></a></h3>
+            <p>{p.desc}</p>
+            <ul class="tags" aria-label="Technologies">
+              {p.tags.map(t => <li>{t}</li>)}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </main>
 
-    <p style="margin-top: 2rem;">
-      <a href="https://github.com/uekala">GitHub</a>
-    </p>
+    <footer>
+      <p>More on <a href="https://github.com/uekala">GitHub</a>.</p>
+    </footer>
   </body>
 </html>
