@@ -1,0 +1,107 @@
+---
+import { projects, text } from '../data/projects.js';
+
+const { lang } = Astro.props;
+const t = text[lang];
+const base = import.meta.env.BASE_URL.replace(/\/?$/, '/');
+const linkKinds = ['try', 'install', 'download'];
+---
+
+<html lang={t.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t.title}</title>
+    <meta name="description" content={t.description} />
+    <meta property="og:title" content={t.title} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL(`${base}img/ladecockpit.webp`, Astro.site).href} />
+    <link rel="alternate" hreflang="en" href={new URL(base, Astro.site).href} />
+    <link rel="alternate" hreflang="de" href={new URL(`${base}de/`, Astro.site).href} />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111111" media="(prefers-color-scheme: dark)" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #fff; --text: #1a1a1a; --muted: #5c5c5c; --rule: #e6e6e6; --shot-bg: #f3f4f6;
+        --tag-bg: #f0f0f0; --tag-text: #444; --link: #0a58ca; --link-hover: #083f91;
+        --btn-bg: #0a58ca; --btn-text: #fff;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111; --text: #eee; --muted: #a8a8a8; --rule: #2e2e2e; --shot-bg: #1b1b1b;
+          --tag-bg: #232323; --tag-text: #c8c8c8; --link: #7cb4ff; --link-hover: #a9ceff;
+          --btn-bg: #7cb4ff; --btn-text: #0b1220;
+        }
+      }
+      body { font-family: system-ui, sans-serif; max-width: 760px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; background: var(--bg); color: var(--text); }
+      a { color: var(--link); text-underline-offset: 0.18em; }
+      a:hover { color: var(--link-hover); }
+      a:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 4px; }
+      header { display: flex; justify-content: space-between; align-items: start; gap: 1rem; }
+      .lang { font-size: 0.9rem; margin-top: 0.9rem; white-space: nowrap; }
+      h1 { font-size: 2.2rem; margin: 0 0 0.25rem; }
+      .subtitle { color: var(--muted); margin-top: 0; }
+      h2 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 2.2rem 0 0.5rem; }
+      .projects { list-style: none; padding: 0; margin: 0; }
+      .project { padding: 1.4rem 0 1.6rem; border-bottom: 1px solid var(--rule); }
+      .shot { display: block; border-radius: 10px; overflow: hidden; background: var(--shot-bg); border: 1px solid var(--rule); margin-bottom: 0.9rem; }
+      .shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; }
+      .project h3 { margin: 0 0 0.3rem; font-size: 1.3rem; }
+      .project h3 a { text-decoration: none; }
+      .project p { margin: 0; }
+      .tags { display: flex; flex-wrap: wrap; gap: 0.35rem; list-style: none; padding: 0; margin: 0.6rem 0 0; font-size: 0.85rem; }
+      .tags li { background: var(--tag-bg); color: var(--tag-text); padding: 0.1rem 0.55rem; border-radius: 999px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.9rem; }
+      .actions a { display: inline-block; padding: 0.35rem 0.9rem; border-radius: 8px; border: 1px solid var(--rule); text-decoration: none; font-size: 0.92rem; font-weight: 500; }
+      .actions a.primary { background: var(--btn-bg); color: var(--btn-text); border-color: var(--btn-bg); }
+      .actions a.primary:hover { filter: brightness(1.08); }
+      footer { margin-top: 2.5rem; color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>uekala</h1>
+        <p class="subtitle">{t.subtitle}</p>
+      </div>
+      <a class="lang" href={t.other.href} hreflang={t.other.hreflang} lang={t.other.hreflang}>{t.other.label}</a>
+    </header>
+
+    <main>
+      <h2 id="projects">{t.projects}</h2>
+      <ul class="projects" aria-labelledby="projects">
+        {projects.map((p) => {
+          const links = linkKinds.flatMap((kind) => p.links.filter((l) => l.kind === kind));
+          return (
+            <li class="project">
+              <a class="shot" href={p.url} tabindex="-1" aria-hidden="true">
+                <img src={`${base}${p.image}`} alt="" width="960" height="600" loading="lazy" decoding="async" />
+              </a>
+              <h3><a href={p.url}>{p.name}</a></h3>
+              <p>{p.desc[lang]}</p>
+              <ul class="tags" aria-label={t.tech}>
+                {p.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+              <div class="actions">
+                {links.map((l, i) => (
+                  <a class={i === 0 ? 'primary' : ''} href={l.href}>{t.links[l.kind]}<span class="sr"> – {p.name}</span></a>
+                ))}
+                <a href={p.url}>{t.links.source}</a>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+    </main>
+
+    <footer>
+      <p>{t.more} <a href="https://github.com/uekala">GitHub</a>.</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
