@@ -17,6 +17,7 @@ const linkKinds = ['try', 'install', 'download'];
     <meta property="og:description" content={t.description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={new URL(`${base}img/ladecockpit.webp`, Astro.site).href} />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <link rel="alternate" hreflang="en" href={new URL(base, Astro.site).href} />
     <link rel="alternate" hreflang="de" href={new URL(`${base}de/`, Astro.site).href} />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
